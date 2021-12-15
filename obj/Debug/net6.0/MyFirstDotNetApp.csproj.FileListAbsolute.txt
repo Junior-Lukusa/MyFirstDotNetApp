@@ -1,0 +1,15 @@
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\bin\Debug\net6.0\MyFirstDotNetApp.exe
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\bin\Debug\net6.0\MyFirstDotNetApp.deps.json
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\bin\Debug\net6.0\MyFirstDotNetApp.runtimeconfig.json
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\bin\Debug\net6.0\MyFirstDotNetApp.dll
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\bin\Debug\net6.0\ref\MyFirstDotNetApp.dll
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\bin\Debug\net6.0\MyFirstDotNetApp.pdb
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.csproj.AssemblyReference.cache
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.AssemblyInfoInputs.cache
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.AssemblyInfo.cs
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.csproj.CoreCompileInputs.cache
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.dll
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\ref\MyFirstDotNetApp.dll
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.pdb
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\Pratique\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.genruntimeconfig.cache
