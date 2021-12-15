@@ -61,29 +61,16 @@ class Map
             Console.WriteLine();
             foreach(int tile in line)
             {
-                Console.Write("<" + tile + "> ");
-            }
-        }
-    }
-
-    public void DisplayRelief()
-    {
-        Console.WriteLine("\n\nLa map");
-        for (int i = 0; i < Dimension; i++)
-        {
-            Console.WriteLine();
-            for (int j = 0; j < Dimension; j++)
-            {
-                int h = Relief[i][j];
-                if(h <= HSnow)
+                // Console.Write("<" + tile + "> ");
+                if(tile <= HSnow)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(h + " ");
+                    Console.Write(tile + " ");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(h + " ");
+                    Console.Write(tile + " ");
                 }
                 
                 Console.ResetColor();
@@ -109,8 +96,7 @@ class Solution
         };
 
         Map myMap = new Map(map, 6);
-        myMap.DisplayRelief();
-        myMap.DisplayReliefInfo();
+        // myMap.DisplayReliefInfo();
 
         var map2 = 
 @"8 9 9 8 7
@@ -120,8 +106,8 @@ class Solution
 7 8 9 6 15";
 
         Map myMap2 = new Map(map2, 5);
-        myMap2.DisplayRelief();
         myMap2.DisplayReliefInfo();
+        myMap.DisplayReliefInfo();
 
     }
 }
