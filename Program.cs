@@ -12,9 +12,9 @@ using System.Collections.Generic;
 class Map
 {
     int HSnow{ set; get;}
-    int _dimension;
+    // int _dimension;
     int[][] _relief;
-    public int Dimension { set{_dimension = value;} get{return _dimension;} }
+    // public int Dimension { set{_dimension = value;} get{return _dimension;} }
     public int[][] Relief { 
         set
         {
@@ -25,12 +25,14 @@ class Map
     public Map(int[][] arr2D, int hSnow)
     {
         HSnow = hSnow;
-        Dimension = arr2D.Length;
+        // Dimension = arr2D.Length;
         Relief = arr2D;
     }
 
     public Map(string mapString, int hSnow)
     {
+        
+        HSnow = hSnow;
         // Splitting the mapString into its lines. Each ones of these are stored in an array as its items.
         string[] mapLine = mapString.Split('\n');
 
@@ -69,7 +71,7 @@ class Map
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.Write(tile + " ");
                 }
                 
@@ -95,9 +97,6 @@ class Solution
             new[] {7,8,9,6,5}
         };
 
-        Map myMap = new Map(map, 6);
-        // myMap.DisplayReliefInfo();
-
         var map2 = 
 @"8 9 9 8 7
 8 2 3 2 7
@@ -105,7 +104,14 @@ class Solution
 9 8 4 2 7
 7 8 9 6 15";
 
-        Map myMap2 = new Map(map2, 5);
+
+
+
+        // int H = 5;
+        // int N = 5;
+        int hSnow = 3;
+        Map myMap = new Map(map, hSnow);
+        Map myMap2 = new Map(map2, hSnow);
         myMap2.DisplayReliefInfo();
         myMap.DisplayReliefInfo();
 
