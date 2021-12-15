@@ -28,21 +28,15 @@ class Map
     {
         string[] mapLine = mapString.Split('\n');
         Console.WriteLine(mapLine[0]);
+        Relief = new int[mapLine[0].Length][];
+        Console.WriteLine(Relief.GetType());
         for(int i = 0; i < mapLine.Length; i++)
         {
             string[] tile = mapLine[i].Split(' ');
             for (int j = 0; j < tile.Length; j++)
             {
-                try
-                {
-                    Console.WriteLine($"({i},{j})" + int.Parse(tile[j]).GetType()); 
-                }
-                catch (System.Exception e)
-                {
-                    Console.WriteLine($"({i},{j})"); 
-                    Console.Write(e.Message);
-                    //throw;
-                }
+                Console.WriteLine($"({i},{j})" + int.Parse(tile[j]).GetType()); 
+                Relief[i][j] = 3;
                 // Relief[i][j] = int.Parse(tile[j]);
             }
         }
