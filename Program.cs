@@ -15,7 +15,12 @@ class Map
     int _dimension;
     int[][] _relief;
     public int Dimension { set{_dimension = value;} get{return _dimension;} }
-    public int[][] Relief { set{_relief = value;} get{return _relief;} }
+    public int[][] Relief { 
+        set
+        {
+            _relief = value;
+        } 
+        get{return _relief;} }
 
     public Map(int[][] arr2D, int hSnow)
     {
@@ -26,24 +31,44 @@ class Map
 
     public Map(string mapString, int hSnow)
     {
+        // Splitting the mapString into its lines. Each ones of these are stored in an array as its items.
         string[] mapLine = mapString.Split('\n');
-        Console.WriteLine(mapLine[0]);
-        Relief = new int[mapLine[0].Length][];
-        Console.WriteLine(Relief.GetType());
+
+        // Initializing the Relief jagged array by specifying its dimension.
+        Relief = new int[mapLine.Length][];
         for(int i = 0; i < mapLine.Length; i++)
         {
+            // Splitting the line into its characters separated by a space. Each char correspond to one tile of the entire map 
             string[] tile = mapLine[i].Split(' ');
+
+            //Initializing the array of each jagged array item by specifying its dimension (the same as mapLine)
+            Relief[i] = new int[tile.Length];
             for (int j = 0; j < tile.Length; j++)
             {
-                Console.WriteLine($"({i},{j})" + int.Parse(tile[j]).GetType()); 
-                Relief[i][j] = 3;
+                // Assigning tile's value to each jagged array item 
+                Relief[i][j] = int.Parse(tile[j]);
+                // Console.WriteLine(int.Parse(tile[j]).GetType());
                 // Relief[i][j] = int.Parse(tile[j]);
             }
         }
     }
 
-    public void Display()
+    public void DisplayReliefInfo()
     {
+        Console.WriteLine($"\n\nRelief.Length : " + Relief.Length);
+        foreach(int[] line in Relief)
+        {
+            Console.WriteLine();
+            foreach(int tile in line)
+            {
+                Console.Write("<" + tile + "> ");
+            }
+        }
+    }
+
+    public void DisplayRelief()
+    {
+        Console.WriteLine("\n\nLa map");
         for (int i = 0; i < Dimension; i++)
         {
             Console.WriteLine();
@@ -84,17 +109,19 @@ class Solution
         };
 
         Map myMap = new Map(map, 6);
-        // myMap.Display();
+        myMap.DisplayRelief();
+        myMap.DisplayReliefInfo();
 
         var map2 = 
 @"8 9 9 8 7
 8 2 3 2 7
 6 4 5 4 8
 9 8 4 2 7
-7 8 9 6 5";
+7 8 9 6 15";
 
         Map myMap2 = new Map(map2, 5);
-        myMap2.Display();
+        myMap2.DisplayRelief();
+        myMap2.DisplayReliefInfo();
 
     }
 }
