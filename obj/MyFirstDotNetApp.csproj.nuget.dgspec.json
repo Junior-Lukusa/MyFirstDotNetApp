@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\Pratique\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj": {}
+    "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\Pratique\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj": {
+    "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\Pratique\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj",
+        "projectUniqueName": "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj",
         "projectName": "MyFirstDotNetApp",
-        "projectPath": "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\Pratique\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj",
+        "projectPath": "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj",
         "packagesPath": "C:\\Users\\rudya.DESKTOP-864D378\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\Pratique\\MyFirstDotNetApp\\obj\\",
+        "outputPath": "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\MyFirstDotNetApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rudya.DESKTOP-864D378\\AppData\\Roaming\\NuGet\\NuGet.Config",
