@@ -18,16 +18,17 @@ class Place
     public int Height{set;get;}
     public int Row{set;get;}
     public int Col{set;get;}
+    public int? ValleyID{set;get;}
 
 
     void _DeterminePosition(int i, int j, int size)
     {
         Position = new List<string>();
-        if(i == size) {Position.Add("Right Edge");}
-        if(i == 0) {Position.Add("Left Edge");}
-        if(j == size) {Position.Add("Bottom Edge");}
-        if(j == 0) {Position.Add("Top Edge");}
-        if(Position.Count() == 0) {Position.Add("Not a Border");}
+        if(j == size-1) {Position.Add("Right");}
+        if(j == 0) {Position.Add("Left");}
+        if(i == size-1) {Position.Add("Bottom");}
+        if(i == 0) {Position.Add("Top");}
+        if(Position.Count() == 0) {Position.Add("Middle");}
     }
 
     void _DetermineType(int snowHeight)
@@ -44,14 +45,16 @@ class Place
         Col = aCol;
         _DeterminePosition(Row,Col,aSize);
         _DetermineType(aSnowHeight);
+        ValleyID = null;
     }
 }
 
 
 class Map
 {
-    int SnowHeight{set;get;}
-    int[][] Relief{set;get;}
+    public int SnowHeight{set;get;}
+    public List<int> ValleysNumber{set;get;}
+    public int[][] Relief{set;get;}
 
     public Place[][] Environment{set; get;}
 
@@ -60,6 +63,7 @@ class Map
         SnowHeight = snowHeight;
         Relief = arr2D;
         BuildEnvironment(SnowHeight);
+        ValleysNumber = new List<int>();
     }
 
     public Map(string mapString, int snowHeight)
@@ -84,6 +88,7 @@ class Map
             }
         }
         BuildEnvironment(SnowHeight);
+        ValleysNumber = new List<int>();
     }
 
     void BuildEnvironment(int aSnowHeight)
@@ -179,34 +184,206 @@ class Solution
 1370 1928 920 1634 1903 1788 513 1883 1313 1495 1890 1409 482 643 1045 1126 1135 975 1998 1105
 1007 944 600 473 732 529 1597 532 1192 1707 533 1981 653 1254 476 1015 1123 1715 985 766";
 
-        Map map1 = new Map(relief1, 5);
-        Map map2 = new Map(relief2, 1200);
-        Map map3 = new Map(relief3, 100);
-        Map mapAlps = new Map(relief4, 862);
+        // Map map1 = new Map(relief1, 5);
+        // Map map2 = new Map(relief2, 1200);
+        // Map map3 = new Map(relief3, 100);
+        // Map mapAlps = new Map(relief4, 862);
 
-        // map1.DisplayReliefInfo();
+        // Map map = new Map(relief1, 5);
+        // Map map = new Map(relief2, 1200);
+        Map map = new Map(relief3, 100);
+        // Map map = new Map(relief4, 862);
+        // map.DisplayReliefInfo();
 
-        // Console.WriteLine(map1.Environment);
+
         
-        Console.WriteLine("\n\n");
-        foreach(var line in map3.Environment)
+        Console.WriteLine("Size: " + map.Relief.Length);
+        Console.WriteLine("Snow Height: " + map.SnowHeight);
+        
+        /*
+        */
+            foreach(var line in map.Environment)
+            {
+                Console.WriteLine();
+                foreach(var member in line)
+                {
+                    Console.ForegroundColor = member.ForegroundColor;
+
+                    // Console.Write($"{member.Type} \t\t");
+                    // Console.Write($"{member.ForegroundColor} \t\t");
+                    // Console.Write($"{String.Join('|',member.Position)} \t");
+                    Console.Write($"{member.Height} \t");
+                    // Console.Write($"({member.Row},{member.Col}) \t\t");
+                    // Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t\t");
+
+                    // Console.Write($"{member.Height} : ({member.Row},{member.Col}) \t\t");
+                    // Console.Write($"({member.Row},{member.Col}):{String.Join('|',member.Position)} \t\t");
+                }
+                Console.ResetColor();
+            }
+
+
+        int mapSize = map.Relief.Length;
+        for(int i = 0; i < mapSize; i++)
         {
             Console.WriteLine();
-            foreach(var member in line)
+            for(int j = 0; j < mapSize; j++)
             {
-                Console.ForegroundColor = member.ForegroundColor;
+                Place currentPlace = map.Environment[i][j];
 
-                // Console.Write($"{member.Type} \t\t");
-                // Console.Write($"{member.ForegroundColor} \t\t");
-                // Console.Write($"{member.Position} \t\t");
-                // Console.Write($"{member.Height} \t\t");
-                // Console.Write($"({member.Row},{member.Col}) \t\t");
+                // Just check if the current place is a Green Square to do stuff. If not, next
+                if(currentPlace.Type == "Green Square")
+                {
 
-                Console.Write($"{member.Height} : ({member.Row},{member.Col}) \t\t");
+                    // Check if the current place has yet an id. If not, set it to the size of map.ValleysNumber + 1;
+                    if(!currentPlace.ValleyID.HasValue)
+                    {
+                        currentPlace.ValleyID = map.ValleysNumber.Count() + 1;
+                        map.ValleysNumber.Add((int)currentPlace.ValleyID);
+                    }
+
+                    /*****************************************************************************************************/
+                    /***************************************CHECK THE NEIGHBORHODD****************************************/
+                    /*****************************************************************************************************/
+
+                    try
+                    {    
+                        // UP : We check the top neighbor only if the current place doesn't contains "Top" in its positions list
+                        if(!currentPlace.Position.Contains("Top"))
+                        {
+                            Place topNeighbor = map.Environment[i-1][j];
+
+                            // Just check if the neightbor place is a Green Square to do stuff. If not, next
+                            if(topNeighbor.Type == "Green Square")
+                            {
+                                // Check if the neighbor place has yet an id. 
+                                // If so, we give the smallest ID to both the current place and the top neighbor
+                                // If not, set it to the ID of the current place;
+                                if(topNeighbor.ValleyID.HasValue)
+                                {
+                                    int smallestID = new[] { (int)currentPlace.ValleyID , (int)topNeighbor.ValleyID }.Min();
+                                    currentPlace.ValleyID = smallestID;
+                                    topNeighbor.ValleyID = smallestID;
+                                }
+                                else
+                                {
+                                    topNeighbor.ValleyID = (int)currentPlace.ValleyID;
+                                }
+                            }
+                        }
+
+                        // BOTTOM : 
+                        if(!currentPlace.Position.Contains("Bottom"))
+                        {
+                            Place bottomNeighbor = map.Environment[i+1][j];
+                            if(bottomNeighbor.Type == "Green Square")
+                            {
+                                if(bottomNeighbor.ValleyID.HasValue)
+                                {
+                                    int smallestID = new[] { (int)currentPlace.ValleyID , (int)bottomNeighbor.ValleyID }.Min();
+                                    currentPlace.ValleyID = smallestID;
+                                    bottomNeighbor.ValleyID = smallestID;
+                                }
+                                else
+                                {
+                                    bottomNeighbor.ValleyID = (int)currentPlace.ValleyID;
+                                }
+                            }
+                        }
+
+                        // RIGHT :
+                        if(!currentPlace.Position.Contains("Right"))
+                        {
+                            Place rightNeighbor = map.Environment[i][j+1];
+                            if(rightNeighbor.Type == "Green Square")
+                            {
+                                if(rightNeighbor.ValleyID.HasValue)
+                                {
+                                    int smallestID = new[] { (int)currentPlace.ValleyID , (int)rightNeighbor.ValleyID }.Min();
+                                    currentPlace.ValleyID = smallestID;
+                                    rightNeighbor.ValleyID = smallestID;
+                                }
+                                else
+                                {
+                                    rightNeighbor.ValleyID = (int)currentPlace.ValleyID;
+                                }
+                            }
+                        }
+
+                        // LEFT :
+                        if(!currentPlace.Position.Contains("Left"))
+                        {
+                            Place leftNeighbor = map.Environment[i][j-1];
+                            if(leftNeighbor.Type == "Green Square")
+                            {
+                                if(leftNeighbor.ValleyID.HasValue)
+                                {
+                                    int smallestID = new[] { (int)currentPlace.ValleyID , (int)leftNeighbor.ValleyID }.Min();
+                                    currentPlace.ValleyID = smallestID;
+                                    leftNeighbor.ValleyID = smallestID;
+                                }
+                                else
+                                {
+                                    leftNeighbor.ValleyID = (int)currentPlace.ValleyID;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine(e);
+                    }
+
+                    
+                    Console.WriteLine("\n\n");
+                    foreach(var line in map.Environment)
+                    {
+                        Console.WriteLine();
+                        foreach(var member in line)
+                        {
+                            Console.ForegroundColor = member.ForegroundColor;
+                            if(member == currentPlace)
+                                Console.Write($"{((member.ValleyID.HasValue) ? "["+member.ValleyID+"]" : 0)} \t");
+                            else
+                                Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t");
+                        }
+                        Console.ResetColor();
+                    }
+
+
+                }
+
+
+                
             }
-            
-            Console.ResetColor();
         }
+
+                
+        /*
+        */
+            Console.WriteLine("\n\n");
+            foreach(var line in map.Environment)
+            {
+                Console.WriteLine();
+                foreach(var member in line)
+                {
+                    Console.ForegroundColor = member.ForegroundColor;
+
+                    // Console.Write($"{member.Type} \t\t");
+                    // Console.Write($"{member.ForegroundColor} \t\t");
+                    // Console.Write($"{String.Join('|',member.Position)} \t");
+                    // Console.Write($"{member.Height} \t\t");
+                    // Console.Write($"({member.Row},{member.Col}) \t\t");
+                    Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t");
+
+                    // Console.Write($"{member.Height} : ({member.Row},{member.Col}) \t\t");
+                    // Console.Write($"({member.Row},{member.Col}):{String.Join('|',member.Position)} \t\t");
+                }
+                Console.ResetColor();
+            }
+
+            Console.WriteLine($"\n{String.Join(',',map.ValleysNumber)}");
 
     }
 }
