@@ -9,30 +9,62 @@ using System.Collections.Generic;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-class Map
-{
-    int HSnow{ set; get;}
-    // int _dimension;
-    int[][] _relief;
-    // public int Dimension { set{_dimension = value;} get{return _dimension;} }
-    public int[][] Relief { 
-        set
-        {
-            _relief = value;
-        } 
-        get{return _relief;} }
 
-    public Map(int[][] arr2D, int hSnow)
+class Place
+{
+    public string Type{set;get;}
+    public ConsoleColor ForegroundColor{set;get;}
+    public List<string> Position{set;get;}
+    public int Height{set;get;}
+    public int Row{set;get;}
+    public int Col{set;get;}
+
+
+    void _DeterminePosition(int i, int j, int size)
     {
-        HSnow = hSnow;
-        // Dimension = arr2D.Length;
-        Relief = arr2D;
+        Position = new List<string>();
+        if(i == size) {Position.Add("Right Edge");}
+        if(i == 0) {Position.Add("Left Edge");}
+        if(j == size) {Position.Add("Bottom Edge");}
+        if(j == 0) {Position.Add("Top Edge");}
+        if(Position.Count() == 0) {Position.Add("Not a Border");}
     }
 
-    public Map(string mapString, int hSnow)
+    void _DetermineType(int snowHeight)
     {
-        
-        HSnow = hSnow;
+        bool condition = (Height <= snowHeight);
+        Type = condition ? "Green Square" : "Snowy Square";
+        ForegroundColor = condition ? ConsoleColor.Green : ConsoleColor.DarkGray;
+    }
+
+    public Place(int aHeight, int aRow, int aCol, int aSize, int aSnowHeight)
+    {
+        Height = aHeight;
+        Row = aRow;
+        Col = aCol;
+        _DeterminePosition(Row,Col,aSize);
+        _DetermineType(aSnowHeight);
+    }
+}
+
+
+class Map
+{
+    int SnowHeight{set;get;}
+    int[][] Relief{set;get;}
+
+    public Place[][] Environment{set; get;}
+
+    public Map(int[][] arr2D, int snowHeight)
+    {
+        SnowHeight = snowHeight;
+        Relief = arr2D;
+        BuildEnvironment(SnowHeight);
+    }
+
+    public Map(string mapString, int snowHeight)
+    {
+        SnowHeight = snowHeight;
         // Splitting the mapString into its lines. Each ones of these are stored in an array as its items.
         string[] mapLine = mapString.Split('\n');
 
@@ -49,21 +81,36 @@ class Map
             {
                 // Assigning tile's value to each jagged array item 
                 Relief[i][j] = int.Parse(tile[j]);
-                // Console.WriteLine(int.Parse(tile[j]).GetType());
-                // Relief[i][j] = int.Parse(tile[j]);
+            }
+        }
+        BuildEnvironment(SnowHeight);
+    }
+
+    void BuildEnvironment(int aSnowHeight)
+    {
+        int size = Relief.Length;
+        Environment = new Place[size][];
+        for(int i = 0; i < size; i++)
+        {
+            Environment[i] = new Place[size];
+            for(int j = 0; j < size; j++)
+            {
+                // Environment[i][j] = new Place(Relief[i][j] , i , j , size , aSnowHeight);
+                Environment[i][j] = new Place(Relief[i][j] , i , j , size , aSnowHeight);
             }
         }
     }
 
+
     public void DisplayReliefInfo()
     {
-        Console.WriteLine($"\n\n\n\nRelief.Length : " + Relief.Length + "\nSnow height : " + HSnow);
+        Console.WriteLine($"\n\n\n\nRelief.Length : " + Relief.Length + "\nSnow height : " + SnowHeight);
         foreach(int[] line in Relief)
         {
             Console.WriteLine();
             foreach(int tile in line)
             {
-                if(tile <= HSnow)
+                if(tile <= SnowHeight)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(tile + "\t");
@@ -85,35 +132,9 @@ class Solution
 {
     static void Main(string[] args)
     {
-        // int hSnow = 8;
-        // int H = 5;
-        // int N = 5;
-        var map = new[]
-        {
-            new[] {8,9,9,8,7},
-            new[] {8,2,3,2,7},
-            new[] {6,4,5,4,8},
-            new[] {9,8,4,2,7},
-            new[] {7,8,9,6,5}
-        };
-
-        var map2 = 
-@"8 9 9 8 7
-8 2 3 2 7
-6 4 5 4 8
-9 8 4 2 7
-7 8 9 6 15";
-
-        // int H = 5;
-        // int N = 5;
-        int hSnow = 3;
-        Map myMap = new Map(map, hSnow);
-        Map myMap2 = new Map(map2, hSnow);
-        // myMap2.DisplayReliefInfo();
-        // myMap.DisplayReliefInfo();
 
 
-        var map1Valley = 
+        var relief1 = 
 @"8 9 9 8 7
 8 2 3 2 7
 6 4 5 4 8
@@ -121,14 +142,14 @@ class Solution
 7 8 9 6 5";
 
 
-        var map2Valley = 
+        var relief2 = 
 @"1230 1241 1223 1244
 1002 1014 1223 1244
 1230 1241 1072 1244
 1230 1132 1118 1171";
 
 
-        var map3Valley = 
+        var relief3 = 
 @"120 134 172 141 154
 171 100 121 91 132
 165 51 120 179 141
@@ -136,7 +157,7 @@ class Solution
 120 134 172 79 154";
 
         
-        var mapAlpsValley = 
+        var relief4 = 
 @"1596 1385 651 1934 1057 1815 1729 1240 1948 1876 649 1374 1811 464 1824 595 1176 792 489 789
 867 1412 469 709 1079 1038 1028 1075 519 966 958 1964 680 1379 1177 693 921 1729 1909 1619
 620 408 1116 1574 669 1955 1382 1368 1914 1114 1183 1648 1270 1265 1277 654 474 1999 627 1282
@@ -158,16 +179,34 @@ class Solution
 1370 1928 920 1634 1903 1788 513 1883 1313 1495 1890 1409 482 643 1045 1126 1135 975 1998 1105
 1007 944 600 473 732 529 1597 532 1192 1707 533 1981 653 1254 476 1015 1123 1715 985 766";
 
-        Map myMap1Valley = new Map(map1Valley, 5);
-        Map myMap2Valley = new Map(map2Valley, 1200);
-        Map myMap3Valley = new Map(map3Valley, 100);
-        Map myMapAlpsValley = new Map(mapAlpsValley, 862);
+        Map map1 = new Map(relief1, 5);
+        Map map2 = new Map(relief2, 1200);
+        Map map3 = new Map(relief3, 100);
+        Map mapAlps = new Map(relief4, 862);
 
-        myMap1Valley.DisplayReliefInfo();
-        myMap2Valley.DisplayReliefInfo();
-        myMap3Valley.DisplayReliefInfo();
-        myMapAlpsValley.DisplayReliefInfo();
+        // map1.DisplayReliefInfo();
 
+        // Console.WriteLine(map1.Environment);
+        
+        Console.WriteLine("\n\n");
+        foreach(var line in map3.Environment)
+        {
+            Console.WriteLine();
+            foreach(var member in line)
+            {
+                Console.ForegroundColor = member.ForegroundColor;
+
+                // Console.Write($"{member.Type} \t\t");
+                // Console.Write($"{member.ForegroundColor} \t\t");
+                // Console.Write($"{member.Position} \t\t");
+                // Console.Write($"{member.Height} \t\t");
+                // Console.Write($"({member.Row},{member.Col}) \t\t");
+
+                Console.Write($"{member.Height} : ({member.Row},{member.Col}) \t\t");
+            }
+            
+            Console.ResetColor();
+        }
 
     }
 }
