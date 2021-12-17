@@ -129,33 +129,6 @@ class Map
         }
         SingleDimensionalEnvironment = placesList.ToArray();
     }
-
-
-
-    public void DisplayReliefInfo()
-    {
-        Console.WriteLine($"\n\n\n\nRelief.Length : " + Relief.Length + "\nSnow height : " + SnowHeight);
-        foreach(int[] line in Relief)
-        {
-            Console.WriteLine();
-            foreach(int tile in line)
-            {
-                if(tile <= SnowHeight)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(tile + "\t");
-
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.Write(tile + "\t");
-                }
-                
-                Console.ResetColor();
-            }
-        }
-    }
 }
 
 class Solution
