@@ -28,3 +28,5 @@ C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\MyFirstDotNetApp\obj\Debug\net6
 C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\MyFirstDotNetApp\obj\Debug\net6.0\ref\MyFirstDotNetApp.dll
 C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.pdb
 C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.genruntimeconfig.cache
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\MyFirstDotNetApp\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\rudya.DESKTOP-864D378\Desktop\C#\Projet\MyFirstDotNetApp\obj\Debug\net6.0\MyFirstDotNetApp.csproj.CopyComplete

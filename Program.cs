@@ -4,11 +4,21 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 /**
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+
+ static class ObjectHelper
+{
+    public static void Dump<T>(this object data)
+	{
+		string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+		Console.WriteLine(json);
+	}
+}
 
 class Place
 {
@@ -445,14 +455,17 @@ class Solution
             }
         }
 
-        var theLargestValley = valleysList.Max();
+        ObjectHelper.Dump<List< List<Place> >>(valleysList);
+        // var theLargestValley = valleysList.Max();
 
-        var theDeepestPlaceQuery = 
-            from place in theLargestValley
-            group place.Height by place.Height into height
-            select height.Min();
+        // var theDeepestPlaceQuery = 
+        //     from place in theLargestValley
+        //     group place.Height by place.Height into height
+        //     select height.Min();
+        // Console.WriteLine(theDeepestPlaceQuery);
 
-        Console.WriteLine(theDeepestPlaceQuery);
+
+
         // var theDeepestPlace = valleysList;
         // Console.WriteLine("\n\n"+theDeepestPlace);
 
