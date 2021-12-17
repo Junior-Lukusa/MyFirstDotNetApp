@@ -57,6 +57,7 @@ class Map
     public int[][] Relief{set;get;}
 
     public Place[][] Environment{set; get;}
+    public Place[] SingleDimensionalEnvironment{set; get;}
 
     public Map(int[][] arr2D, int snowHeight)
     {
@@ -106,6 +107,20 @@ class Map
         }
     }
 
+    public void BuildSingleDimensionalEnvironment()
+    {
+        List<Place> placesList = new List<Place>();
+        foreach(Place[] placesLine in Environment)
+        {
+            foreach(Place place in placesLine)
+            {
+                placesList.Add(place);
+            }
+        }
+        SingleDimensionalEnvironment = placesList.ToArray();
+    }
+
+
 
     public void DisplayReliefInfo()
     {
@@ -147,10 +162,10 @@ class Solution
                 switch(whatToDisplay)
                 {
                     case "Type":
-                        Console.Write($"{member.Type} \t\t");
+                        Console.Write($"{member.Type} \t");
                         break;
                     case "ForegroundColor":
-                        Console.Write($"{member.ForegroundColor} \t\t");
+                        Console.Write($"{member.ForegroundColor} \t");
                         break;
                     case "Position":
                         Console.Write($"{String.Join('|',member.Position)} \t");
@@ -159,14 +174,14 @@ class Solution
                         Console.Write($"{member.Height} \t");
                         break;
                     case "RowCol":
-                        Console.Write($"({member.Row},{member.Col}) \t\t");
+                        Console.Write($"({member.Row},{member.Col}) \t");
                         break;
                     case "ValleyID":
-                        Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t\t");
+                        Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t");
                         break;
                     case "Other":
-                        Console.Write($"{member.Height} : ({member.Row},{member.Col}) \t\t");
-                        Console.Write($"({member.Row},{member.Col}):{String.Join('|',member.Position)} \t\t");
+                        Console.Write($"{member.Height} : ({member.Row},{member.Col}) \t");
+                        Console.Write($"({member.Row},{member.Col}):{String.Join('|',member.Position)} \t");
                         break;
                 }
             }
@@ -180,7 +195,7 @@ class Solution
         int mapSize = map.Relief.Length;
         for(int i = 0; i < mapSize; i++)
         {
-            Console.WriteLine();
+            // Console.WriteLine();
             for(int j = 0; j < mapSize; j++)
             {
                 Place currentPlace = map.Environment[i][j];
@@ -290,20 +305,20 @@ class Solution
                     }
 
                     
-                    Console.WriteLine("\n\n");
-                    foreach(var line in map.Environment)
-                    {
-                        Console.WriteLine();
-                        foreach(var member in line)
-                        {
-                            Console.ForegroundColor = member.ForegroundColor;
-                            if(member == currentPlace)
-                                Console.Write($"{((member.ValleyID.HasValue) ? "["+member.ValleyID+"]" : 0)} \t");
-                            else
-                                Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t");
-                        }
-                        Console.ResetColor();
-                    }
+                    // Console.WriteLine("\n\n");
+                    // foreach(var line in map.Environment)
+                    // {
+                    //     Console.WriteLine();
+                    //     foreach(var member in line)
+                    //     {
+                    //         Console.ForegroundColor = member.ForegroundColor;
+                    //         if(member == currentPlace)
+                    //             Console.Write($"{((member.ValleyID.HasValue) ? "["+member.ValleyID+"]" : 0)} \t");
+                    //         else
+                    //             Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t");
+                    //     }
+                    //     Console.ResetColor();
+                    // }
                 }
 
 
@@ -368,9 +383,9 @@ class Solution
         // Map map3 = new Map(relief3, 100);
         // Map mapAlps = new Map(relief4, 862);
 
-        Map map = new Map(relief1, 5);
+        // Map map = new Map(relief1, 5);
         // Map map = new Map(relief2, 1200);
-        // Map map = new Map(relief3, 100);
+        Map map = new Map(relief3, 100);
         // Map map = new Map(relief4, 862);
         // map.DisplayReliefInfo();
 
@@ -381,10 +396,69 @@ class Solution
 
         DisplayEnvironment(map, "Height"); // "Type"  "ForegroundColor"  "Position"  "Height"  "RowCol"  "ValleyID"  "Other 
         CheckNeighborhood(map);
-        DisplayEnvironment(map, "Height");
-        Console.WriteLine($"\n{String.Join(',',map.ValleysNumber)}");
+        map.BuildSingleDimensionalEnvironment();
+        Console.WriteLine();
+        DisplayEnvironment(map, "ValleyID");
 
+        // Console.WriteLine($"\n{String.Join(',',map.ValleysNumber)}");
+
+ 
+
+
+
+
+        /*****************************************************************************************************/
+        /********************** FIND THE DEEPEST PLACE IN THE LARGEST VALLEY *********************************/
+        /*****************************************************************************************************/
         
+        // To find the highest valleyID, first we create a list for valleyIDs only,
+        var valleyIDsList = 
+            from place in map.SingleDimensionalEnvironment 
+            select place.ValleyID;
+        
+        // And the we find the highest valleyID
+        int higestValleyID = Convert.ToInt32(valleyIDsList.Max());
+        
+        // To find the largest valley, first we create a list of valleys only
+        var valleysList = new List< List<Place> >();
+        
+        Console.WriteLine();
+        for(int i = 1; i <= higestValleyID; i++)
+        {
+            var resultat = 
+                from place in map.SingleDimensionalEnvironment
+                where place.ValleyID == i
+                select place;
+            
+            Console.Write($"\nValleyID = {i} : ");
+            foreach(var place in resultat)
+            {
+                Console.Write($"{place.Row},{place.Col} | ");
+            }
+
+            // Check if the List returned is a valley or not depending of the rules of the game
+            // We add the List only when the opposite of the following statement is true: 
+            // the List has only one Place AND that place does not contain the string "Middle" in its Position's List
+            if( !(resultat.Count() == 1 && (!resultat.ToList()[0].Position.Contains("Middle"))) )
+            {
+                valleysList.Add(resultat.ToList());
+            }
+        }
+
+        var theLargestValley = valleysList.Max();
+
+        var theDeepestPlaceQuery = 
+            from place in theLargestValley
+            group place.Height by place.Height into height
+            select height.Min();
+
+        Console.WriteLine(theDeepestPlaceQuery);
+        // var theDeepestPlace = valleysList;
+        // Console.WriteLine("\n\n"+theDeepestPlace);
+
+
+
+
 
     }
 }

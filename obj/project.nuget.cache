@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "txPceN6G2tW7DIm3cHys9naB+aTIl/QtyZ+R88m2/zii9dnzEWRbYp57AGT8+TsEwAnHNWIEkvLFdrpDxnzaAg==",
+  "dgSpecHash": "3vtDEhmRLbBccV2o/WfEAbz2a0sjQvD0LCp3THIBPDjjjOufCO+kRycUWmvGfpX3ZJEKck0hDgXc4svTnLpaKA==",
   "success": true,
   "projectFilePath": "C:\\Users\\rudya.DESKTOP-864D378\\Desktop\\C#\\Projet\\MyFirstDotNetApp\\MyFirstDotNetApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\rudya.DESKTOP-864D378\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
