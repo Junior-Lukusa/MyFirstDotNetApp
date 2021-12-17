@@ -191,8 +191,8 @@ class Solution
 
         // Map map = new Map(relief1, 5);
         // Map map = new Map(relief2, 1200);
-        Map map = new Map(relief3, 100);
-        // Map map = new Map(relief4, 862);
+        // Map map = new Map(relief3, 100);
+        Map map = new Map(relief4, 862);
         // map.DisplayReliefInfo();
 
 
@@ -373,9 +373,9 @@ class Solution
                     // Console.Write($"{member.Type} \t\t");
                     // Console.Write($"{member.ForegroundColor} \t\t");
                     // Console.Write($"{String.Join('|',member.Position)} \t");
-                    // Console.Write($"{member.Height} \t\t");
+                    Console.Write($"{member.Height} \t");
                     // Console.Write($"({member.Row},{member.Col}) \t\t");
-                    Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t");
+                    // Console.Write($"{((member.ValleyID.HasValue) ? member.ValleyID : 0)} \t");
 
                     // Console.Write($"{member.Height} : ({member.Row},{member.Col}) \t\t");
                     // Console.Write($"({member.Row},{member.Col}):{String.Join('|',member.Position)} \t\t");
