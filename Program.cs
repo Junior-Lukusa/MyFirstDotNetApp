@@ -395,8 +395,8 @@ class Solution
 
         // Map map = new Map(relief1, 5);
         // Map map = new Map(relief2, 1200);
-        Map map = new Map(relief3, 100);
-        // Map map = new Map(relief4, 862);
+        // Map map = new Map(relief3, 100);
+        Map map = new Map(relief4, 862);
         // map.DisplayReliefInfo();
 
 
@@ -455,23 +455,61 @@ class Solution
             }
         }
 
-        ObjectHelper.Dump<List< List<Place> >>(valleysList);
-        // var theLargestValley = valleysList.Max();
-
-        // var theDeepestPlaceQuery = 
-        //     from place in theLargestValley
-        //     group place.Height by place.Height into height
-        //     select height.Min();
-        // Console.WriteLine(theDeepestPlaceQuery);
+        Console.WriteLine();
+        // ObjectHelper.Dump<object>(valleysList);
 
 
+        // To get longest valleys List inside of the valleys list "valleysList" :
+        // First, we need to find the size of largest valleys
+        int largestValleySize = 0;
+        foreach(var valley in valleysList)
+        {
+            if(valley.Count() >= largestValleySize)
+            {
+                largestValleySize = valley.Count();
+            }
+        }
+        // Then we create a list which contains only the index of largest valleys
+        List<int> largestValleyIndexList = new List<int>();
+        for(int i = 0; i < valleysList.Count(); i++)
+        {
+            if(valleysList[i].Count() == largestValleySize)
+            {
+                largestValleyIndexList.Add(i);
+            }
+        }
 
-        // var theDeepestPlace = valleysList;
-        // Console.WriteLine("\n\n"+theDeepestPlace);
+        // Instead of finding directly the largest valley which contains the deepest place 
+        // between those which are found as the largest, we merge every thing to creat one valley.
+        // Then, the thing will be to find the deepest place inside of that merged valley 
+        List<Place> theLargestValley = new List<Place>();
+        for(int i = 0; i < largestValleyIndexList.Count(); i++)
+        {
+            foreach(Place place in valleysList[largestValleyIndexList[i]])
+            {
+                theLargestValley.Add(place);
+            }
+        }
+        
+        Console.WriteLine();
+        // Console.WriteLine(theLargestValley.GetType());
+        // Console.WriteLine("theLargestValley : ");
+        // ObjectHelper.Dump<object>(theLargestValley);
 
 
-
-
+        // Query to get the heights of places inside the largest valley 
+        var theDeepestPlaceQuery = 
+            from place in theLargestValley
+            group place.Height by place.Height into height
+            select height.Min();
+        // Display heights found
+        foreach(int height in theDeepestPlaceQuery)
+        {
+            Console.WriteLine(height);
+        }
+        // Find the deepest place inside the largest valley
+        int theDeepestPlace = theDeepestPlaceQuery.Min();
+        Console.WriteLine("\n\n"+theDeepestPlace);
 
     }
 }
